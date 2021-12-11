@@ -1,8 +1,8 @@
 <template>
   <div class="shell">
     <label>
-      <input type="checkbox" class="box" v-model='todoData.done' checked='todoData.done'/>
-      <div class="text">{{ todoData.title }}</div>
+      <input type="checkbox" class="box" v-model='todo.done' checked='todo.done'/>
+      <div class="text">{{ todo.title }}</div>
     </label>
   </div>
 </template>
@@ -11,7 +11,7 @@
 export default {
   name: "myItem",
   //  声明插值对象
-  props: ["todoData"],
+  props: ["todo"],
   data() {
     return {
       checked: "",

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-        <my-header></my-header>
-        <my-list></my-list>
-        <my-footer></my-footer>
+    <my-header></my-header>
+    <my-list :todoData='todos'></my-list>
+    <my-footer></my-footer>
   </div>
 </template>
 
@@ -18,11 +18,37 @@ export default {
     myHeader,
     myList,
   },
+  data() {
+    return {
+      todos: [
+        {
+          id: "001",
+          title: "吃饭",
+          done: true,
+        },
+        {
+          id: "002",
+          title: "抽烟",
+          done: true,
+        },
+        {
+          id: "003",
+          title: "喝酒",
+          done: true,
+        },
+        {
+          id: "004",
+          title: "烫头",
+          done: true,
+        },
+      ],
+    };
+  },
 };
 </script>
 
 <style>
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -39,5 +65,4 @@ export default {
   padding: 5px;
   box-shadow: 0px 2px 5px 5px #e0e0e08f;
 }
-
 </style>
