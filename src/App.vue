@@ -7,7 +7,10 @@
       :AutoCheckForAll="AutoCheckForAll"
       :DoCheck="DoCheck"
     ></my-list>
-    <my-footer :watchCheckForAll="watchCheckForAll"></my-footer>
+    <my-footer
+      :watchCheckForAll="watchCheckForAll"
+      :signal="signal"
+    ></my-footer>
   </div>
 </template>
 
@@ -25,6 +28,7 @@ export default {
   },
   data() {
     return {
+      signal: false,
       todos: [
         {
           id: "001",
@@ -58,31 +62,29 @@ export default {
     // 设置这个函数的目的是避免props值的修改
     // 问题1.现在可以对元素的值进行修改 但是不是响应式 造成连锁反应就是全选功能坏了
     DoCheck(id) {
-      // 非相应式舍去
-      // this.todos.forEach(element => {
-      //   if(id==element.id){
-      //     element.done = !element.done
-      //     console.log(element);
-      //   }
-      // });
-      for (let i = 0; i < this.todos.length; i++) {
-        if (id == this.todos[i].id) {
-          this.todos[i].done = !this.todos[i].done;
-          this.$set(this.todos, i, this.todos[i]);
+      // 非相应式舍去 /已解决 问题来自于 myitem中的 this.todo （不能加this
+      this.todos.forEach((element) => {
+        if (id == element.id) {
+          element.done = !element.done;
         }
-      }
+      });
     },
+    //   for (let i = 0; i < this.todos.length; i++) {
+    //     if (id == this.todos[i].id) {
+    //       this.todos[i].done = !this.todos[i].done;
+    //       this.$set(this.todos, i, this.todos[i]);
+    //     }
+    //   }
+    // },
     // 全选功能
     watchCheckForAll(checked) {
       if (checked) {
         for (let i = 0; i < this.todos.length; i++) {
-          this.todos[i].done = checked
-          this.$set(this.todos, i, this.todos[i])
+          this.todos[i].done = checked;
         }
       } else {
-       for (let i = 0; i < this.todos.length; i++) {
-         this.todos[i].done = checked
-         this.$set(this.todos, i, this.todos[i])
+        for (let i = 0; i < this.todos.length; i++) {
+          this.todos[i].done = checked;
         }
       }
     },
@@ -91,13 +93,19 @@ export default {
     AutoCheckForAll() {
       //  模块判断已选子模块的个数 全选就改变全选框的值
       let CheckArr = [];
-      this.todoData.forEach((element) => {
+      this.todos.forEach((element) => {
         if (element.done) {
           CheckArr.push(element.id);
+          console.log(CheckArr);
         }
+
+        console.log(CheckArr.length == this.todos.length);
         //  用数组长度输出 每一次改变子模块的check都进行判断
         if (CheckArr.length == this.todos.length) {
-          this.watchCheckForAll(this.checked);
+          this.signal = true;
+          console.log("ok");
+        } else {
+          this.signal = false;
         }
       });
     },

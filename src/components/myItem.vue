@@ -1,8 +1,13 @@
 <template>
   <div class="shell">
     <label>
-        <!-- 但是v-model实际上修改了props的值不建议使用 -->
-      <input type="checkbox" class="box" @change="handleCheck(todo.id)" :checked='checkeData'/>
+      <!-- 但是v-model实际上修改了props的值不建议使用 -->
+      <input
+        type="checkbox"
+        class="box"
+        :checked="todo.done"
+        @change="handleCheck(todo.id)"
+      />
       <div class="text">{{ todo.title }}</div>
     </label>
   </div>
@@ -12,23 +17,16 @@
 export default {
   name: "myItem",
   //  声明插值对象 对于props 的值是不能改的 但是vue只能检测到全部修改 就是对象里面的值检测不到
-  props: ["todo",'AutoCheckForAll','DoCheck'],
+  props: ["todo", "AutoCheckForAll", "DoCheck"],
   data() {
-    return {
-      checkeData:this.todo.done
-    };
+    return {};
   },
   methods: {
-    handleCheck(id){
-      this.DoCheck(id)
-    }
+    handleCheck(id) {
+      this.DoCheck(id);
+      this.AutoCheckForAll();
+    },
   },
-  watch:{
-    checked:function(){
-      console.log(1);
-      this.AutoCheckForAll()
-    }
-  }
 };
 </script>
 
@@ -39,14 +37,13 @@ export default {
   height: 49px;
   border-bottom: 1px solid #ebeef5;
   line-height: 49px;
-
 }
 .text {
   margin-left: 10px;
 }
 label {
-    display: flex;
-    user-select: none;
+  display: flex;
+  user-select: none;
 }
 
 .box {
