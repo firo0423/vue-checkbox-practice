@@ -79,12 +79,21 @@ export default {
     // 全选功能
     watchCheckForAll(checked) {
       if (checked) {
-        for (let i = 0; i < this.todos.length; i++) {
-          this.todos[i].done = checked;
-        }
+        this.todos.forEach((element) => {
+          element.done = checked;
+        });
       } else {
-        for (let i = 0; i < this.todos.length; i++) {
-          this.todos[i].done = checked;
+        let checkarr = [];
+        this.todos.forEach((element) => {
+          // 当勾选满的时候才全部取消全选
+          if (element.done) {
+            checkarr.push(element.id);
+          }
+        });
+        if (checkarr.length == this.todos.length) {
+          this.todos.forEach((element) => {
+            element.done = checked;
+          });
         }
       }
     },
@@ -96,10 +105,7 @@ export default {
       this.todos.forEach((element) => {
         if (element.done) {
           CheckArr.push(element.id);
-          console.log(CheckArr);
         }
-
-        console.log(CheckArr.length == this.todos.length);
         //  用数组长度输出 每一次改变子模块的check都进行判断
         if (CheckArr.length == this.todos.length) {
           this.signal = true;
