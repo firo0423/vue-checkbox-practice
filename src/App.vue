@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <my-header></my-header>
-    <my-list :todoData='todos'></my-list>
+    <!-- 将方法传给组件 秀 -->
+    <my-header :receive="addTodo"></my-header>
+    <my-list :todoData="todos"></my-list>
     <my-footer></my-footer>
   </div>
 </template>
@@ -24,25 +25,30 @@ export default {
         {
           id: "001",
           title: "吃饭",
-          done: true,
+          done: false,
         },
         {
           id: "002",
           title: "抽烟",
-          done: true,
+          done: false,
         },
         {
           id: "003",
           title: "喝酒",
-          done: true,
+          done: false,
         },
         {
           id: "004",
           title: "烫头",
-          done: true,
+          done: false,
         },
       ],
     };
+  },
+  methods: {
+    addTodo(data) {
+      this.todos.unshift(data)
+    },
   },
 };
 </script>

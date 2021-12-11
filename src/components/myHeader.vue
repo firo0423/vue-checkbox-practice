@@ -13,6 +13,7 @@
 import {nanoid} from 'nanoid'
 export default {
   name: "myHeader",
+  props:['receive'],
   data() {
     return {
       input:''
@@ -22,11 +23,13 @@ export default {
   methods: {
     UploadMission(){
       const todoObj= {id:nanoid(),title:this.input, done:false}
+      this.receive(todoObj)
       console.log(todoObj);
     },
     test(){
       console.log(1);
-    }
+    },
+
   },
 };
 </script>
