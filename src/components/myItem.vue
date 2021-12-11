@@ -1,7 +1,8 @@
 <template>
   <div class="shell">
     <label>
-      <input type="checkbox" class="box" v-model='todo.done' checked='todo.done'/>
+        <!-- 但是v-model实际上修改了props的值不建议使用 -->
+      <input type="checkbox" class="box" @change="DoCheck(todo.id)"/>
       <div class="text">{{ todo.title }}</div>
     </label>
   </div>
@@ -10,13 +11,19 @@
 <script>
 export default {
   name: "myItem",
-  //  声明插值对象
-  props: ["todo"],
+  //  声明插值对象 对于props 的值是不能改的 但是vue只能检测到全部修改 就是对象里面的值检测不到
+  props: ["todo",'AutoCheckForAll','DoCheck'],
   data() {
     return {
-      checked: "",
+      checked:this.todo.done
     };
   },
+  watch:{
+    checked:function(){
+      console.log(1);
+      this.AutoCheckForAll()
+    }
+  }
 };
 </script>
 

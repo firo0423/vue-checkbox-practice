@@ -1,7 +1,8 @@
 <template>
   <div class="footer">
     <div class="checkbox">
-        <label class="box"><input type="checkbox"><span>全选</span></label>
+        <!-- 这里的check值明显只有一个值 肯定会报错 使用函数取反 -->
+        <label class="box"><input type="checkbox" v-model="checked"><span>全选</span></label>
     </div>
     <div class="text">已完成0/全部0</div>
     <div class="D-btn">
@@ -13,11 +14,17 @@
 <script>
 export default {
   name: "myFooter",
+  props:['watchCheckForAll'],
   data() {
       return {
           checked:''
       }
   },
+  watch:{
+      checked: function(checked){
+          this.watchCheckForAll(checked)
+      }
+  }
 };
 </script>
 

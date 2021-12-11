@@ -2,8 +2,8 @@
   <div id="app">
     <!-- 将方法传给组件 秀 -->
     <my-header :receive="addTodo"></my-header>
-    <my-list :todoData="todos"></my-list>
-    <my-footer></my-footer>
+    <my-list :todoData="todos" :AutoCheckForAll='AutoCheckForAll' :DoCheck='DoCheck'></my-list>
+    <my-footer :watchCheckForAll="watchCheckForAll"></my-footer>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
         {
           id: "001",
           title: "吃饭",
-          done: false,
+          done: true,
         },
         {
           id: "002",
@@ -46,8 +46,47 @@ export default {
     };
   },
   methods: {
+    // 添加任务功能
     addTodo(data) {
-      this.todos.unshift(data)
+      this.todos.unshift(data);
+      console.log(this.todoData.length);
+    },
+    // 勾选和取消勾选 
+    // 设置这个函数的目的是避免props值的修改
+    DoCheck(id){
+      console.log(1);
+
+      this.todos.forEach(element => {
+        if(id==element.id){
+          element.done = !element.done
+          console.log(element);
+        }
+      });
+    },
+    // 全选功能
+    watchCheckForAll(checked) {
+      if (checked) {
+        this.todos.forEach((element) => {
+          element.done = checked;
+        });
+      } else {
+        this.todos.forEach((element) => {
+          element.done = checked;
+        });
+      }
+    },
+    AutoCheckForAll() {
+      //  模块判断已选子模块的个数 全选就改变全选框的值
+      let CheckArr = [];
+      this.todoData.forEach((element) => {
+        if (element.done) {
+          CheckArr.push(element.id);
+        }
+        //  用数组长度输出 每一次改变子模块的check都进行判断
+        if (CheckArr.length == this.todoData.length) {
+          this.watchCheckForAll(this.checked);
+        }
+      });
     },
   },
 };
