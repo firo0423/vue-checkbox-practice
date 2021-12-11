@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <div class="checkbox">
-        <el-checkbox v-model="checked">备选项</el-checkbox>
+        <label class="box"><input type="checkbox"><span>全选</span></label>
     </div>
     <div class="text">已完成0/全部0</div>
     <div class="D-btn">
@@ -13,6 +13,11 @@
 <script>
 export default {
   name: "myFooter",
+  data() {
+      return {
+          checked:''
+      }
+  },
 };
 </script>
 
@@ -33,5 +38,10 @@ export default {
 .D-btn{
     float: right;
 }
-
+.box >span {
+    margin-left: 5px;
+}
+.checkbox{
+    margin-left: 0px;
+}
 </style>

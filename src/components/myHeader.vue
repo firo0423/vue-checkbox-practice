@@ -11,6 +11,11 @@
 <script>
 export default {
   name: "myHeader",
+  data() {
+    return {
+      input:''
+    }
+  },
   methods: {
     UploadMission(){
       console.log(1);
