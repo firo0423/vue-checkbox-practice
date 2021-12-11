@@ -2,7 +2,7 @@
   <div class="shell">
     <label>
         <!-- 但是v-model实际上修改了props的值不建议使用 -->
-      <input type="checkbox" class="box" @change="DoCheck(todo.id)"/>
+      <input type="checkbox" class="box" @change="handleCheck(todo.id)" :checked='checkeData'/>
       <div class="text">{{ todo.title }}</div>
     </label>
   </div>
@@ -15,8 +15,13 @@ export default {
   props: ["todo",'AutoCheckForAll','DoCheck'],
   data() {
     return {
-      checked:this.todo.done
+      checkeData:this.todo.done
     };
+  },
+  methods: {
+    handleCheck(id){
+      this.DoCheck(id)
+    }
   },
   watch:{
     checked:function(){

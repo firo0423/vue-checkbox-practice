@@ -49,13 +49,13 @@ export default {
     // 添加任务功能
     addTodo(data) {
       this.todos.unshift(data);
-      console.log(this.todoData.length);
+      console.log(this.todos.length);
     },
     // 勾选和取消勾选 
     // 设置这个函数的目的是避免props值的修改
+    // 问题1.现在可以对元素的值进行修改 但是不是响应式 造成连锁反应就是全选功能坏了
     DoCheck(id){
       console.log(1);
-
       this.todos.forEach(element => {
         if(id==element.id){
           element.done = !element.done
@@ -83,7 +83,7 @@ export default {
           CheckArr.push(element.id);
         }
         //  用数组长度输出 每一次改变子模块的check都进行判断
-        if (CheckArr.length == this.todoData.length) {
+        if (CheckArr.length == this.todos.length) {
           this.watchCheckForAll(this.checked);
         }
       });
