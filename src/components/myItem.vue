@@ -43,14 +43,17 @@ li {
   list-style: none;
 }
 .el-button {
+  position: absolute;
+  right:10px;
+  top: 5px;
   margin: auto;
   height: 40px;
   opacity: 0;
-  margin-left: 540px;
   transition: all 0.2s;
   justify-content: center;
 }
 .shell {
+  position: relative;
   padding: 0 5px;
   display: flex;
   width: 100%;
