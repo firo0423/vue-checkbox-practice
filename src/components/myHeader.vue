@@ -33,6 +33,7 @@ export default {
     UploadMission() {
       const todoObj = { id: nanoid(), title: this.input, done: false };
       this.receive(todoObj);
+      this.input = ''
       console.log(todoObj);
     },
     test() {

@@ -6,6 +6,7 @@
       :todoData="todos"
       :AutoCheckForAll="AutoCheckForAll"
       :DoCheck="DoCheck"
+      :DeleteTodo="DeleteTodo"
     ></my-list>
     <my-footer
       :watchCheckForAll="watchCheckForAll"
@@ -58,6 +59,13 @@ export default {
     addTodo(data) {
       this.todos.unshift(data);
     },
+    // 删除任务模块
+    // 思想还是传递参数 当点击侧边按钮时就删除对应的项目
+    DeleteTodo(id) {
+      this.todos = this.todos.filter((todo) => {
+        return todo.id !== id;
+      });
+    },
     // 勾选和取消勾选
     // 设置这个函数的目的是避免props值的修改
     // 问题1.现在可以对元素的值进行修改 但是不是响应式 造成连锁反应就是全选功能坏了
@@ -69,13 +77,7 @@ export default {
         }
       });
     },
-    //   for (let i = 0; i < this.todos.length; i++) {
-    //     if (id == this.todos[i].id) {
-    //       this.todos[i].done = !this.todos[i].done;
-    //       this.$set(this.todos, i, this.todos[i]);
-    //     }
-    //   }
-    // },
+
     // 全选功能
     watchCheckForAll(checked) {
       if (checked) {
@@ -119,7 +121,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 * {
   margin: 0;
   padding: 0;
@@ -133,8 +135,8 @@ export default {
   margin: 100px auto;
   width: 700px;
   border: 2px solid #eee;
-  border-radius: 5px;
-  padding: 5px;
+  border-radius: 10px;
+  padding: 10px;
   box-shadow: 0px 2px 5px 5px #e0e0e08f;
 }
 </style>
