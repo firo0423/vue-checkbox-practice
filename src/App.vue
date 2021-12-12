@@ -34,7 +34,7 @@ export default {
     return {
       CheckedArr: [],
       signal: false,
-      todos: [
+      todos: JSON.parse(localStorage.getItem("todos")) || [
         {
           id: "001",
           title: "吃饭",
@@ -132,7 +132,7 @@ export default {
   watch: {
     // 用来监视todos数组 使footer文字响应式变化
     todos: {
-      handler: function () {
+      handler: function (value) {
         this.CheckedArr = [];
         this.todos.forEach((element) => {
           // 当done为true 且 数组里面没有 这个元素
@@ -140,6 +140,8 @@ export default {
             this.CheckedArr.push(element.id);
           }
         });
+        // 本地储存模块
+        localStorage.setItem("todos",JSON.stringify(value))
       },
       immediate: true,
       deep: true,
