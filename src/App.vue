@@ -13,6 +13,7 @@
       :signal="signal"
       :CheckedArr="CheckedArr"
       :todos="todos"
+      :DeleteCheckedItem="DeleteCheckedItem"
     ></my-footer>
   </div>
 </template>
@@ -121,12 +122,20 @@ export default {
         }
       });
     },
+    // 选中删除模块 问题 明显的数组问题 当删除一个元素 其他元素不是原地不动 而是补齐位置 用filter解决
+    DeleteCheckedItem() {
+      this.todos = this.todos.filter((todo) => {
+        return !todo.done;
+      });
+    },
   },
   watch: {
+    // 用来监视todos数组 使footer文字响应式变化
     todos: {
       handler: function () {
         this.CheckedArr = [];
         this.todos.forEach((element) => {
+          // 当done为true 且 数组里面没有 这个元素
           if (element.done && this.CheckedArr.indexOf(element.id) == -1) {
             this.CheckedArr.push(element.id);
           }

@@ -8,7 +8,7 @@
     </div>
     <div class="text">已完成{{CheckedArr.length}}/全部{{todos.length}}</div>
     <div class="D-btn">
-      <el-button type="danger">清除选中的任务</el-button>
+      <el-button type="danger" @click="DeleteCheckedItem">清除选中的任务</el-button>
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@
 <script>
 export default {
   name: "myFooter",
-  props: ["watchCheckForAll", "signal",'CheckedArr','todos'],
+  props: ["watchCheckForAll", "signal",'CheckedArr','todos','DeleteCheckedItem'],
   data() {
     return {
       checked: "",
