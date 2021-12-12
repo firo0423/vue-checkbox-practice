@@ -11,6 +11,8 @@
     <my-footer
       :watchCheckForAll="watchCheckForAll"
       :signal="signal"
+      :CheckedArr="CheckedArr"
+      :todos="todos"
     ></my-footer>
   </div>
 </template>
@@ -29,6 +31,7 @@ export default {
   },
   data() {
     return {
+      CheckedArr: [],
       signal: false,
       todos: [
         {
@@ -54,6 +57,7 @@ export default {
       ],
     };
   },
+  computed: {},
   methods: {
     // 添加任务功能
     addTodo(data) {
@@ -116,6 +120,20 @@ export default {
           this.signal = false;
         }
       });
+    },
+  },
+  watch: {
+    todos: {
+      handler: function () {
+        this.CheckedArr = [];
+        this.todos.forEach((element) => {
+          if (element.done && this.CheckedArr.indexOf(element.id) == -1) {
+            this.CheckedArr.push(element.id);
+          }
+        });
+      },
+      immediate: true,
+      deep: true,
     },
   },
 };
