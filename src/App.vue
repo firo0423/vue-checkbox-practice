@@ -5,9 +5,6 @@
     <my-header @addTodo="addTodo"></my-header>
     <my-list
       :todoData="todos"
-      :AutoCheckForAll="AutoCheckForAll"
-      :DoCheck="DoCheck"
-      :DeleteTodo="DeleteTodo"
     ></my-list>
     <my-footer
       :watchCheckForAll="watchCheckForAll"
@@ -148,6 +145,21 @@ export default {
       deep: true,
     },
   },
+  // 数据在哪 在哪里去操作数据（写函数） 下面这个是 绑定函数在总线上 方便 兄弟 父子使用 
+  mounted(){
+    this.$bus.$on('DoCheck',this.DoCheck)
+    this.$bus.$on('DeleteTodo',this.DeleteTodo)
+    this.$bus.$on('AutoCheckForAll',this.AutoCheckForAll)
+    this.$bus.$on('watchCheckForAll',this.watchCheckForAll)
+    this.$bus.$on('DeleteCheckedItem',this.DeleteCheckedItem)
+  },
+  // 标准的再加一个beforedestroy 后面懒得加了
+  beforeDestroy(){
+    this.$bus.$off('DoCheck')
+    this.$bus.$off('DeleteTodo')
+    this.$bus.$off('AutoCheckForAll')
+  }
+  // 下一步去 item触发
 };
 </script>
 

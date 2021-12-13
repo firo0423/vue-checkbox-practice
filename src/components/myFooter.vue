@@ -6,9 +6,11 @@
         ><input type="checkbox" v-model="checked" /><span>全选</span></label
       >
     </div>
-    <div class="text">已完成{{CheckedArr.length}}/全部{{todos.length}}</div>
+    <div class="text">已完成{{ CheckedArr.length }}/全部{{ todos.length }}</div>
     <div class="D-btn">
-      <el-button type="danger" @click="DeleteCheckedItem">清除选中的任务</el-button>
+      <el-button type="danger" @click="DeleteCheckedItem"
+        >清除选中的任务</el-button
+      >
     </div>
   </div>
 </template>
@@ -16,18 +18,23 @@
 <script>
 export default {
   name: "myFooter",
-  props: ["watchCheckForAll", "signal",'CheckedArr','todos','DeleteCheckedItem'],
+  props: ["signal", "CheckedArr", "todos"],
   data() {
     return {
       checked: "",
     };
   },
+  methods: {
+    DeleteCheckedItem() {
+      this.$bus.$emit("DeleteCheckedItem");
+    },
+  },
   watch: {
     checked: function (checked) {
-      this.watchCheckForAll(checked);
+      this.$bus.$emit("watchCheckForAll", checked);
     },
     signal: function () {
-      if (this.signal) {
+      if (this.signal && this.todos.length !== 0) {
         this.checked = true;
       } else {
         this.checked = false;

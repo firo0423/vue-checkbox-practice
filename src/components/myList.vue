@@ -6,9 +6,6 @@
         v-for="todoObj in todoData"
         :key="todoObj.id"
         :todo="todoObj"
-        :AutoCheckForAll="AutoCheckForAll"
-        :DoCheck="DoCheck"
-        :DeleteTodo='DeleteTodo'
       />
     </ul>
   </div>
@@ -20,7 +17,7 @@ import myItem from "./myItem.vue";
 export default {
   components: { myItem },
   name: "myList",
-  props: ["todoData", "AutoCheckForAll", "DoCheck",'DeleteTodo'],
+  props: ["todoData"],
   methods: {},
 };
 </script>

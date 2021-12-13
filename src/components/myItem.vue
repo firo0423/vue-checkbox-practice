@@ -22,17 +22,20 @@
 export default {
   name: "myItem",
   //  声明插值对象 对于props 的值是不能改的 但是vue只能检测到全部修改 就是对象里面的值检测不到
-  props: ["todo", "AutoCheckForAll", "DoCheck", "DeleteTodo"],
+  props: ["todo"],
   data() {
     return {};
   },
   methods: {
     handleCheck(id) {
-      this.DoCheck(id);
-      this.AutoCheckForAll();
+      // this.DoCheck(id);
+      // this.AutoCheckForAll();
+      this.$bus.$emit('DoCheck',id)
+      this.$bus.$emit('AutoCheckForAll')
     },
     handleCheckDeleteId(id) {
-      this.DeleteTodo(id);
+      // this.DeleteTodo(id);
+      this.$bus.$emit('DeleteTodo',id)
     },
   },
 };
