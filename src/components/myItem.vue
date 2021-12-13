@@ -10,7 +10,7 @@
           @change="handleCheck(todo.id)"
         />
         <div class="text" v-show="!todo.isEdit">
-          <span>{{ todo.title }}</span>
+          <span :class="DoneStlye">{{ todo.title }}</span>
         </div>
         <input
           type="text"
@@ -41,7 +41,9 @@ export default {
   //  声明插值对象 对于props 的值是不能改的 但是vue只能检测到全部修改 就是对象里面的值检测不到
   props: ["todo"],
   data() {
-    return {};
+    return {
+      DoneStlye:'',
+    };
   },
   methods: {
     handleCheck(id) {
@@ -49,6 +51,7 @@ export default {
       // this.AutoCheckForAll();
       this.$bus.$emit("DoCheck", id);
       this.$bus.$emit("AutoCheckForAll");
+      this.$bus.$emit("AddDoneStlye");
     },
     handleCheckDeleteId(id) {
       // this.DeleteTodo(id);
@@ -65,6 +68,16 @@ export default {
       this.$bus.$emit('UpdateToda',todo.id, e.target.value)
       this.todo.isEdit = false;
     },
+    AddDoneStlye(){
+      if (this.todo.done) {
+        this.DoneStlye = 'DoneClass'
+      } else {
+        this.DoneStlye = ''
+      }
+    }
+  },
+  mounted() {
+    this.$bus.$on('AddDoneStlye',this.AddDoneStlye)
   },
 };
 </script>
@@ -131,5 +144,9 @@ label {
   background-color: #efefef00;
   font-size: 16px;
   line-height: 49px;
+}
+.DoneClass {
+ text-decoration: line-through;
+ color: rgba(51, 51, 51, 0.699);
 }
 </style>
