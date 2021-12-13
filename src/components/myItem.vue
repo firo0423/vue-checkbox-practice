@@ -9,9 +9,26 @@
           :checked="todo.done"
           @change="handleCheck(todo.id)"
         />
-        <div class="text">{{ todo.title }}</div>
+        <div class="text" v-show="!todo.isEdit">
+          <span>{{ todo.title }}</span>
+        </div>
+        <input
+          type="text"
+          v-show="todo.isEdit"
+          :value="todo.title"
+          ref="input"
+          class="ChangeInputValue"
+          @blur="ShowChangeContent(todo,$event)"
+        />
+        <!-- 上边的$event 收集到事件对象 -->
       </label>
-      <el-button type="danger" @click="handleCheckDeleteId(todo.id)"
+      <el-button type="primary" class="change" @click="ChangeInputValue(todo)"
+        >修改内容</el-button
+      >
+      <el-button
+        type="danger"
+        @click="handleCheckDeleteId(todo.id)"
+        class="danger"
         >清除任务</el-button
       >
     </div>
@@ -30,12 +47,23 @@ export default {
     handleCheck(id) {
       // this.DoCheck(id);
       // this.AutoCheckForAll();
-      this.$bus.$emit('DoCheck',id)
-      this.$bus.$emit('AutoCheckForAll')
+      this.$bus.$emit("DoCheck", id);
+      this.$bus.$emit("AutoCheckForAll");
     },
     handleCheckDeleteId(id) {
       // this.DeleteTodo(id);
-      this.$bus.$emit('DeleteTodo',id)
+      this.$bus.$emit("DeleteTodo", id);
+    },
+    ChangeInputValue(todo) {
+      this.$set(todo, "isEdit", true);
+      // 自动获取焦点
+      this.$nextTick(() => {
+        this.$refs.input.focus();
+      });
+    },
+    ShowChangeContent(todo,e) {
+      this.$bus.$emit('UpdateToda',todo.id, e.target.value)
+      this.todo.isEdit = false;
     },
   },
 };
@@ -45,9 +73,19 @@ export default {
 li {
   list-style: none;
 }
-.el-button {
+.el-button.change {
   position: absolute;
-  right:10px;
+  right: 110px;
+  top: 5px;
+  margin: auto;
+  height: 40px;
+  opacity: 0;
+  transition: all 0.2s;
+  justify-content: center;
+}
+.el-button.danger {
+  position: absolute;
+  right: 10px;
   top: 5px;
   margin: auto;
   height: 40px;
@@ -84,5 +122,14 @@ label {
   height: 49px;
   line-height: 49px;
   justify-content: center;
+}
+.ChangeInputValue {
+  margin-left: 10px;
+  width: 550px;
+  outline: none;
+  border: none;
+  background-color: #efefef00;
+  font-size: 16px;
+  line-height: 49px;
 }
 </style>

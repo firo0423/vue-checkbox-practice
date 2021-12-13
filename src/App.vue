@@ -70,6 +70,13 @@ export default {
         return todo.id !== id;
       });
     },
+    UpdateToda(id,title){
+      this.todos.forEach(element => {
+        if (id == element.id) {
+          element.title = title
+        }
+      });
+    },
     // 勾选和取消勾选
     // 设置这个函数的目的是避免props值的修改
     // 问题1.现在可以对元素的值进行修改 但是不是响应式 造成连锁反应就是全选功能坏了
@@ -149,6 +156,7 @@ export default {
   mounted() {
     this.$bus.$on("DoCheck", this.DoCheck);
     this.$bus.$on("DeleteTodo", this.DeleteTodo);
+    this.$bus.$on("UpdateToda", this.UpdateToda);
     this.$bus.$on("AutoCheckForAll", this.AutoCheckForAll);
     this.$bus.$on("watchCheckForAll", this.watchCheckForAll);
     this.$bus.$on("DeleteCheckedItem", this.DeleteCheckedItem);
