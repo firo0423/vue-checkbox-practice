@@ -3,15 +3,11 @@
     <!-- 将方法传给组件 秀 -->
     <!-- 以下是自定义事件写法 子传父 -->
     <my-header @addTodo="addTodo"></my-header>
-    <my-list
-      :todoData="todos"
-    ></my-list>
+    <my-list :todoData="todos"></my-list>
     <my-footer
-      :watchCheckForAll="watchCheckForAll"
       :signal="signal"
       :CheckedArr="CheckedArr"
       :todos="todos"
-      :DeleteCheckedItem="DeleteCheckedItem"
     ></my-footer>
   </div>
 </template>
@@ -60,7 +56,12 @@ export default {
   methods: {
     // 添加任务功能
     addTodo(data) {
-      this.todos.unshift(data);
+      if (data.title == "") {
+        alert("请输入任务");
+      } else {
+        this.todos.unshift(data);
+        this.$bus.$emit("AutoCheckForAll");
+      }
     },
     // 删除任务模块
     // 思想还是传递参数 当点击侧边按钮时就删除对应的项目
@@ -112,9 +113,8 @@ export default {
           CheckArr.push(element.id);
         }
         //  用数组长度输出 每一次改变子模块的check都进行判断
-        if (CheckArr.length == this.todos.length) {
+        if (CheckArr.length == this.todos.length && this.todos.length!==0) {
           this.signal = true;
-          console.log("ok");
         } else {
           this.signal = false;
         }
@@ -139,26 +139,26 @@ export default {
           }
         });
         // 本地储存模块
-        localStorage.setItem("todos",JSON.stringify(value))
+        localStorage.setItem("todos", JSON.stringify(value));
       },
       immediate: true,
       deep: true,
     },
   },
-  // 数据在哪 在哪里去操作数据（写函数） 下面这个是 绑定函数在总线上 方便 兄弟 父子使用 
-  mounted(){
-    this.$bus.$on('DoCheck',this.DoCheck)
-    this.$bus.$on('DeleteTodo',this.DeleteTodo)
-    this.$bus.$on('AutoCheckForAll',this.AutoCheckForAll)
-    this.$bus.$on('watchCheckForAll',this.watchCheckForAll)
-    this.$bus.$on('DeleteCheckedItem',this.DeleteCheckedItem)
+  // 数据在哪 在哪里去操作数据（写函数） 下面这个是 绑定函数在总线上 方便 兄弟 父子使用
+  mounted() {
+    this.$bus.$on("DoCheck", this.DoCheck);
+    this.$bus.$on("DeleteTodo", this.DeleteTodo);
+    this.$bus.$on("AutoCheckForAll", this.AutoCheckForAll);
+    this.$bus.$on("watchCheckForAll", this.watchCheckForAll);
+    this.$bus.$on("DeleteCheckedItem", this.DeleteCheckedItem);
   },
   // 标准的再加一个beforedestroy 后面懒得加了
-  beforeDestroy(){
-    this.$bus.$off('DoCheck')
-    this.$bus.$off('DeleteTodo')
-    this.$bus.$off('AutoCheckForAll')
-  }
+  beforeDestroy() {
+    this.$bus.$off("DoCheck");
+    this.$bus.$off("DeleteTodo");
+    this.$bus.$off("AutoCheckForAll");
+  },
   // 下一步去 item触发
 };
 </script>

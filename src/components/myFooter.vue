@@ -32,6 +32,7 @@ export default {
   watch: {
     checked: function (checked) {
       this.$bus.$emit("watchCheckForAll", checked);
+      this.$bus.$emit("AutoCheckForAll");
     },
     signal: function () {
       if (this.signal && this.todos.length !== 0) {
