@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <!-- 将方法传给组件 秀 -->
-    <my-header :receive="addTodo"></my-header>
+    <!-- 以下是自定义事件写法 子传父 -->
+    <my-header @addTodo="addTodo"></my-header>
     <my-list
       :todoData="todos"
       :AutoCheckForAll="AutoCheckForAll"

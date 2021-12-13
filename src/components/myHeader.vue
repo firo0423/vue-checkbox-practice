@@ -22,7 +22,8 @@
 import { nanoid } from "nanoid";
 export default {
   name: "myHeader",
-  props: ["receive"],
+  // 用自定义事件就不需要传数据到子组件
+  // props: ["receive"],
   data() {
     return {
       input: "",
@@ -32,9 +33,9 @@ export default {
   methods: {
     UploadMission() {
       const todoObj = { id: nanoid(), title: this.input, done: false };
-      this.receive(todoObj);
       this.input = ''
-      console.log(todoObj);
+      this.$emit('addTodo',todoObj)
+
     },
     test() {
       console.log(1);
